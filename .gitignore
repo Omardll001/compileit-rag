@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Vector store (byggs lokalt med: python -m ingest.build_index)
+chroma_db/
+*.sqlite3
+
+# Node
+node_modules/
+.next/
+out/
+.vercel
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uppgiftsfiler och lokala hjälpscript – ska ej publiceras
+# (dessa filer ligger utanför compileit-rag/ och inkluderas aldrig
+#  om git init körs inifrån compileit-rag/ mappen)
