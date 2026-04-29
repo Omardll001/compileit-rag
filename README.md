@@ -111,11 +111,33 @@ frontend/
 
 ## Driftsättning (produktion)
 
+> **För att köra och testa projektet lokalt** – använd installationsstegen ovan (Python + Node).  
+> Docker och GCP är dokumenterat här för referens vid ev. produktionsdeploy.
+
+### Lokalt med Docker Compose
+
+```bash
+# 1. Sätt OPENAI_API_KEY i backend/.env
+
+# 2. Bygg Chroma-indexet lokalt först (kräver .env och OpenAI-nyckel)
+#    Kör från backend/ med aktiverat venv:
+python -m ingest.build_index
+
+# 3. Gå tillbaka till roten och starta hela stacken med Docker
+cd ..
+docker-compose up --build
+```
+
+Öppna http://localhost:3000. Chroma-datan persisteras i en Docker-volym (`chroma_data`).
+
 ### Backend – GCP Cloud Run
 
 ```bash
-# Bygg Docker-image och publicera till Google Artifact Registry
-gcloud builds submit --tag gcr.io/PROJECT_ID/compileit-rag-backend
+# Bygg och publicera Docker-image
+cd backend
+gcloud builds submit --tag gcr.io/PROJECT_ID/compileit-rag-backend .
+
+# Deploya till Cloud Run (--min-instances 1 eliminerar cold starts)
 gcloud run deploy compileit-rag-backend \
   --image gcr.io/PROJECT_ID/compileit-rag-backend \
   --platform managed \
@@ -124,8 +146,6 @@ gcloud run deploy compileit-rag-backend \
   --min-instances 1 \
   --set-env-vars OPENAI_API_KEY=sk-...
 ```
-
-> `--min-instances 1` eliminerar cold starts.
 
 ### Frontend – Vercel
 
