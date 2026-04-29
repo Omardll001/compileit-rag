@@ -107,14 +107,6 @@ frontend/
   app/             Next.js App Router
   components/      ChatWindow, Message, SourceList
 ```
-
-## Antaganden
-
-- `compileit.com` har en publik `sitemap.xml`. Om inte används BFS från `/` med `max_depth=2`.
-- Sidan är primärt på svenska – embeddings (`text-embedding-3-small`) och LLM (`gpt-4o-mini`) hanterar svenska bra.
-- Sessionsminne är in-memory (`MemorySaver`). I produktion skulle `RedisSaver` eller `PostgresSaver` användas.
-- Indexet byggs offline. En GitHub Action skulle kunna re-indexera automatiskt vid varje deploy.
-
 ---
 
 ## Driftsättning (produktion)
